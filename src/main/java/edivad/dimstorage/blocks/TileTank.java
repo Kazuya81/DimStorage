@@ -19,6 +19,7 @@ public class TileTank extends TileEntity {
         protected void onContentsChanged() {
             IBlockState state = world.getBlockState(pos);
             world.notifyBlockUpdate(pos, state, state, 3);
+            world.checkLight(pos);
             markDirty();
         }
     };

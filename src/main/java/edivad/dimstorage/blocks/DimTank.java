@@ -24,13 +24,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class DimTank extends Block implements ITileEntityProvider{
+public class DimTank extends Block implements ITileEntityProvider {
 
 	public static final ResourceLocation DIMTANK = new ResourceLocation(Main.MODID, "dimensional_tank");
 
@@ -47,7 +48,7 @@ public class DimTank extends Block implements ITileEntityProvider{
 
 		this.setCreativeTab(Main.tabDimStorage);
 	}
-	
+
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
@@ -118,6 +119,28 @@ public class DimTank extends Block implements ITileEntityProvider{
 			}
 		}
 		super.addInformation(stack, player, tooltip, advanced);
+	}
+
+	@Override
+	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos)
+	{
+		TileEntity te = world.getTileEntity(pos);
+		if(te instanceof TileTank)
+		{
+			FluidStack fluidStack = ((TileTank) te).getTank().getFluid();
+			if(fluidStack != null)
+			{
+				Fluid fluid = fluidStack.getFluid();
+				if(fluid != null)
+				{
+					int light = fluid.getLuminosity(fluidStack);
+					if(fluid.isGaseous())
+						light = (int) (light * fluidStack.amount / 16D);
+					return light;
+				}
+			}
+		}
+		return 0;
 	}
 
 	@SideOnly(Side.CLIENT)
