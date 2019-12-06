@@ -1,10 +1,12 @@
 package edivad.dimstorage;
 
+import edivad.dimstorage.blocks.DimTank;
 import edivad.dimstorage.items.DimCore;
 import edivad.dimstorage.items.DimWall;
 import edivad.dimstorage.items.ItemDimChest;
 import edivad.dimstorage.items.SolidDimCore;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -35,5 +37,6 @@ public class ModItems {
 		registry.register(new DimWall());
 		registry.register(new SolidDimCore());
 		registry.register(new ItemDimChest(ModBlocks.dimChest));
+		registry.register(new ItemBlock(ModBlocks.dimTank).setRegistryName(DimTank.DIMTANK));
 	}
 }
