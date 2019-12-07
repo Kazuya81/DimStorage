@@ -17,7 +17,7 @@ public class ModBlocks {
 
 	@GameRegistry.ObjectHolder(Main.MODID + ":dimensional_chest")
 	public static DimChest dimChest;
-	
+
 	@GameRegistry.ObjectHolder(Main.MODID + ":dimensional_tank")
 	public static DimTank dimTank;
 
@@ -35,8 +35,8 @@ public class ModBlocks {
 		GameRegistry.registerTileEntity(TileEntityDimChest.class, Main.MODID + ":dimensional_chest");
 		ModelRegistryHelper.register(new ModelResourceLocation(Main.MODID + ":dimensional_chest"), new DimChestItemRender());
 		//ModelLoader.setCustomStateMapper(dimChest, new StateMap.Builder().build());
-        //ModelRegistryHelper.register(new ModelResourceLocation(Main.MODID + ":dimensional_chest", "normal"), ParticleDummyModel.INSTANCE);
-		
+		//ModelRegistryHelper.register(new ModelResourceLocation(Main.MODID + ":dimensional_chest", "normal"), ParticleDummyModel.INSTANCE);
+
 		registry.register(new DimTank());
 		GameRegistry.registerTileEntity(TileTank.class, Main.MODID + ":dimensional_tank");
 	}
