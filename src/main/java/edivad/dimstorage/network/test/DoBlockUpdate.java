@@ -24,11 +24,11 @@ public class DoBlockUpdate implements IMessage {
 	{
 	}
 
-	public DoBlockUpdate(TileEntityDimChest tile)
+	public DoBlockUpdate(BlockPos pos, Frequency freq, boolean locked)
 	{
-		pos = tile.getPos();
-		freq = tile.frequency;
-		locked = tile.locked;
+		this.pos = pos;
+		this.freq = freq;
+		this.locked = locked;
 	}
 
 	@Override
