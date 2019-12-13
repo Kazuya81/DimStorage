@@ -179,6 +179,11 @@ public class TileEntityDimChest extends TileFrequencyOwner implements IGuiTile {
 		return super.getCapability(capability, facing);
 	}
 
+	private void reloadStorage()
+	{
+		currentStorage = getStorage();
+	}
+	
 	@Override
 	public Container createContainer(EntityPlayer player)
 	{
@@ -193,11 +198,5 @@ public class TileEntityDimChest extends TileFrequencyOwner implements IGuiTile {
 		reloadStorage();
 		currentStorage.empty();
 		return new GuiDimChest(player.inventory, currentStorage, this);
-	}
-
-	@Override
-	public void reloadStorage()
-	{
-		currentStorage = getStorage();
 	}
 }

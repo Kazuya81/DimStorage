@@ -176,6 +176,16 @@ public class DimChest extends Block implements ITileEntityProvider {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 		return tileentity != null && tileentity.receiveClientEvent(eventID, eventParam);
 	}
+	
+	@Override
+	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos)
+	{
+		TileEntity tile = world.getTileEntity(pos);
+        if (tile instanceof TileEntityDimChest) {
+            return ((TileEntityDimChest) tile).getLightValue();
+        }
+        return 0;
+	}
 
 	@SideOnly(Side.CLIENT)
 	public void initModel()

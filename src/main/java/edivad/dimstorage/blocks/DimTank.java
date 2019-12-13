@@ -3,6 +3,8 @@ package edivad.dimstorage.blocks;
 import java.util.List;
 
 import edivad.dimstorage.Main;
+import edivad.dimstorage.client.render.tile.TankTESR;
+import edivad.dimstorage.tile.TileEntityDimTank;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
@@ -24,7 +26,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -52,15 +53,24 @@ public class DimTank extends Block implements ITileEntityProvider {
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
-		return new TileTank();
+		return new TileEntityDimTank();
 	}
-
+	
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
-		if(!worldIn.isRemote)
-			FluidUtil.interactWithFluidHandler(playerIn, hand, worldIn, pos, facing);
-		return true;
+		if(worldIn.isRemote)
+			return true;
+
+		FluidUtil.interactWithFluidHandler(playerIn, hand, worldIn, pos, facing);
+		
+		TileEntity tile = worldIn.getTileEntity(pos);
+		if(!(tile instanceof TileEntityDimTank))
+			return false;
+
+		TileEntityDimTank owner = (TileEntityDimTank) tile;
+
+		return !playerIn.isSneaking() && owner.activate(playerIn, worldIn, pos);
 	}
 
 	@Override
@@ -120,33 +130,21 @@ public class DimTank extends Block implements ITileEntityProvider {
 		}
 		super.addInformation(stack, player, tooltip, advanced);
 	}
-
+	
 	@Override
 	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos)
 	{
-		TileEntity te = world.getTileEntity(pos);
-		if(te instanceof TileTank)
-		{
-			FluidStack fluidStack = ((TileTank) te).getTank().getFluid();
-			if(fluidStack != null)
-			{
-				Fluid fluid = fluidStack.getFluid();
-				if(fluid != null)
-				{
-					int light = fluid.getLuminosity(fluidStack);
-					if(fluid.isGaseous())
-						light = (int) (light * fluidStack.amount / 16D);
-					return light;
-				}
-			}
-		}
-		return 0;
+		TileEntity tile = world.getTileEntity(pos);
+        if (tile instanceof TileEntityDimTank) {
+            return ((TileEntityDimTank) tile).getLightValue();
+        }
+        return 0;
 	}
 
 	@SideOnly(Side.CLIENT)
 	public void initModel()
 	{
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));
-		ClientRegistry.bindTileEntitySpecialRenderer(TileTank.class, new TankTESR());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDimTank.class, new TankTESR());
 	}
 }

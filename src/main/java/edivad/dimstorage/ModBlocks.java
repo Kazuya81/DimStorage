@@ -3,9 +3,9 @@ package edivad.dimstorage;
 import codechicken.lib.model.ModelRegistryHelper;
 import edivad.dimstorage.blocks.DimChest;
 import edivad.dimstorage.blocks.DimTank;
-import edivad.dimstorage.blocks.TileTank;
 import edivad.dimstorage.client.render.item.DimChestItemRender;
 import edivad.dimstorage.tile.TileEntityDimChest;
+import edivad.dimstorage.tile.TileEntityDimTank;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -38,6 +38,6 @@ public class ModBlocks {
 		//ModelRegistryHelper.register(new ModelResourceLocation(Main.MODID + ":dimensional_chest", "normal"), ParticleDummyModel.INSTANCE);
 
 		registry.register(new DimTank());
-		GameRegistry.registerTileEntity(TileTank.class, Main.MODID + ":dimensional_tank");
+		GameRegistry.registerTileEntity(TileEntityDimTank.class, Main.MODID + ":dimensional_tank");
 	}
 }

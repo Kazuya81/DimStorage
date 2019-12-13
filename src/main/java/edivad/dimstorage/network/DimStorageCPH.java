@@ -1,12 +1,13 @@
 package edivad.dimstorage.network;
 
 import codechicken.lib.packet.ICustomPacketHandler.IClientPacketHandler;
+import codechicken.lib.packet.PacketCustom;
 import edivad.dimstorage.Main;
 import edivad.dimstorage.api.Frequency;
 import edivad.dimstorage.manager.DimStorageManager;
 import edivad.dimstorage.storage.DimChestStorage;
+import edivad.dimstorage.tile.TileEntityDimTank;
 import edivad.dimstorage.tile.TileFrequencyOwner;
-import codechicken.lib.packet.PacketCustom;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.network.play.INetHandlerPlayClient;
@@ -36,24 +37,27 @@ public class DimStorageCPH implements IClientPacketHandler {
 				((DimChestStorage) DimStorageManager.instance(true).getStorage(freq, "item")).setClientOpen(packet.readBoolean() ? 1 : 0);
 				System.out.println("Chest open on the frequency: " + freq);
 				break;
-			//			case 4: break;
-			//			case 5:
-			//			case 6:
-			//				handleTankTilePacket(mc.world, packet.readPos(), packet);
-			//				break;
+			case 4:
+				TankSynchroniser.syncClient(Frequency.readFromPacket(packet), packet.readFluidStack());
+				break;
+			case 5:
+			case 6:
+				handleTankTilePacket(mc.world, packet.readPos(), packet);
+				break;
 			default:
 				System.out.println(packet.getType());
 				break;
 		}
 	}
 
-	//	private void handleTankTilePacket(WorldClient world, BlockPos pos, PacketCustom packet)
-	//	{
-	//		//        TileEntity tile = world.getTileEntity(pos);
-	//		//        if (tile instanceof TileEnderTank) {
-	//		//            ((TileEnderTank) tile).sync(packet);
-	//		//        }
-	//	}
+	private void handleTankTilePacket(WorldClient world, BlockPos pos, PacketCustom packet)
+	{
+		TileEntity tile = world.getTileEntity(pos);
+		if(tile instanceof TileEntityDimTank)
+		{
+			((TileEntityDimTank) tile).sync(packet);
+		}
+	}
 
 	private void handleTilePacket(WorldClient world, PacketCustom packet, BlockPos pos)
 	{

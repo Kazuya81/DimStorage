@@ -1,16 +1,18 @@
-package edivad.dimstorage.blocks;
+package edivad.dimstorage.client.render.tile;
 
 import org.lwjgl.opengl.GL11;
 
+import edivad.dimstorage.storage.DimTankStorage;
+import edivad.dimstorage.tile.TileEntityDimTank;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -18,7 +20,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class TankTESR extends TileEntitySpecialRenderer<TileTank> {
+public class TankTESR extends TileEntitySpecialRenderer<TileEntityDimTank> {
 
 	public float TANK_THICKNESS = 0.04f;
 
@@ -27,7 +29,7 @@ public class TankTESR extends TileEntitySpecialRenderer<TileTank> {
 	}
 
 	@Override
-	public void render(TileTank tileEntity, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
+	public void render(TileEntityDimTank tileEntity, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
 	{
 		GlStateManager.pushMatrix();
 		GlStateManager.disableRescaleNormal();
@@ -41,12 +43,12 @@ public class TankTESR extends TileEntitySpecialRenderer<TileTank> {
 		GlStateManager.popMatrix();
 	}
 
-	private void renderFluid(TileTank tank)
+	private void renderFluid(TileEntityDimTank tank)
 	{
 		if(tank == null)
 			return;
 
-		FluidStack fluid = tank.getTank().getFluid();
+		FluidStack fluid = tank.liquid_state.c_liquid;
 		if(fluid == null)
 			return;
 
@@ -54,7 +56,7 @@ public class TankTESR extends TileEntitySpecialRenderer<TileTank> {
 		if(renderFluid == null)
 			return;
 
-		float scale = (1.0f - TANK_THICKNESS / 2 - TANK_THICKNESS) * fluid.amount / (tank.getTank().getCapacity());
+		float scale = (1.0f - TANK_THICKNESS / 2 - TANK_THICKNESS) * fluid.amount / (DimTankStorage.CAPACITY);
 		if(scale > 0.0f)
 		{
 			Tessellator tessellator = Tessellator.getInstance();

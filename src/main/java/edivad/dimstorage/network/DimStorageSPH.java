@@ -1,9 +1,9 @@
 package edivad.dimstorage.network;
 
 import codechicken.lib.packet.ICustomPacketHandler.IServerPacketHandler;
+import codechicken.lib.packet.PacketCustom;
 import edivad.dimstorage.Main;
 import edivad.dimstorage.api.Frequency;
-import codechicken.lib.packet.PacketCustom;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.INetHandlerPlayServer;
@@ -15,7 +15,11 @@ public class DimStorageSPH implements IServerPacketHandler {
 	@Override
 	public void handlePacket(PacketCustom packet, EntityPlayerMP sender, INetHandlerPlayServer handler)
 	{
-
+		switch (packet.getType()) {
+            case 1:
+                TankSynchroniser.handleVisiblityPacket(sender, packet);
+                break;
+        } 
 	}
 
 	public static void sendOpenUpdateTo(EntityPlayer player, Frequency freq, boolean open)

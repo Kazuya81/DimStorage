@@ -10,6 +10,7 @@ import edivad.dimstorage.manager.DimStorageManager;
 import edivad.dimstorage.network.DimStorageSPH;
 import edivad.dimstorage.network.test.PacketHandler;
 import edivad.dimstorage.plugin.DimChestPlugin;
+import edivad.dimstorage.plugin.DimTankPlugin;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -28,6 +29,7 @@ public class Proxy {
 	public void preInit(FMLPreInitializationEvent e)
 	{
 		DimStorageManager.registerPlugin(new DimChestPlugin());
+		DimStorageManager.registerPlugin(new DimTankPlugin());
 		MinecraftForge.EVENT_BUS.register(new DimStorageManager.DimStorageSaveHandler());
 	}
 
