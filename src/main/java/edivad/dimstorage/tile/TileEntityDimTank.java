@@ -5,9 +5,7 @@ import javax.annotation.Nullable;
 import codechicken.lib.data.MCDataInput;
 import codechicken.lib.data.MCDataOutput;
 import codechicken.lib.fluid.FluidUtils;
-import codechicken.lib.math.MathHelper;
 import codechicken.lib.packet.PacketCustom;
-import edivad.dimstorage.Main;
 import edivad.dimstorage.api.Frequency;
 import edivad.dimstorage.manager.DimStorageManager;
 import edivad.dimstorage.network.DimStorageSPH;
@@ -45,47 +43,6 @@ public class TileEntityDimTank extends TileFrequencyOwner {
 			world.checkLight(pos);
 		}
 
-	}
-
-	public class PressureState {
-
-		public boolean invert_redstone;
-		public boolean a_pressure;
-		public boolean b_pressure;
-
-		public double a_rotate;
-		public double b_rotate;
-
-		public void update(boolean client)
-		{
-			if(client)
-			{
-				b_rotate = a_rotate;
-				a_rotate = MathHelper.approachExp(a_rotate, approachRotate(), 0.5, 20);
-			}
-			else
-			{
-				b_pressure = a_pressure;
-				a_pressure = world.isBlockPowered(getPos()) != invert_redstone;
-				if(a_pressure != b_pressure)
-				{
-					sendSyncPacket();
-				}
-			}
-		}
-
-		public double approachRotate()
-		{
-			return a_pressure ? -90 : 90;
-		}
-
-		private void sendSyncPacket()
-		{
-			PacketCustom packet = new PacketCustom(DimStorageSPH.channel, 6);
-			packet.writePos(getPos());
-			packet.writeBoolean(a_pressure);
-			packet.sendToChunk(world, pos.getX() >> 4, pos.getZ() >> 4);
-		}
 	}
 
 	public class TankFluidCap implements IFluidHandler {
@@ -127,7 +84,6 @@ public class TileEntityDimTank extends TileFrequencyOwner {
 
 	public int rotation;
 	public DimTankState liquid_state = new DimTankState();
-	public PressureState pressure_state = new PressureState();
 	public TankFluidCap fluidCap = new TankFluidCap();
 
 	private boolean described;
@@ -136,13 +92,7 @@ public class TileEntityDimTank extends TileFrequencyOwner {
 	public void update()
 	{
 		super.update();
-
-		pressure_state.update(world.isRemote);
-		if(pressure_state.a_pressure)
-		{
-			ejectLiquid();
-		}
-
+		ejectLiquid();
 		liquid_state.update(world.isRemote);
 	}
 
@@ -184,7 +134,6 @@ public class TileEntityDimTank extends TileFrequencyOwner {
 	public void onPlaced(EntityLivingBase entity)
 	{
 		rotation = (int) Math.floor(entity.rotationYaw * 4 / 360 + 2.5D) & 3;
-		pressure_state.b_rotate = pressure_state.a_rotate = pressure_state.approachRotate();
 	}
 
 	@Override
@@ -218,11 +167,9 @@ public class TileEntityDimTank extends TileFrequencyOwner {
 		liquid_state.setFrequency(frequency);
 		rotation = packet.readUByte() & 3;
 		liquid_state.s_liquid = packet.readFluidStack();
-		pressure_state.a_pressure = packet.readBoolean();
 		if(!described)
 		{
 			liquid_state.c_liquid = liquid_state.s_liquid;
-			pressure_state.b_rotate = pressure_state.a_rotate = pressure_state.approachRotate();
 		}
 		described = true;
 	}
@@ -230,7 +177,7 @@ public class TileEntityDimTank extends TileFrequencyOwner {
 	@Override
 	public boolean activate(EntityPlayer player, World worldIn, BlockPos pos)
 	{
-		player.openGui(Main.MODID, 0, worldIn, pos.getX(), pos.getY(), pos.getZ());
+		//player.openGui(Main.MODID, 0, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 
@@ -249,10 +196,6 @@ public class TileEntityDimTank extends TileFrequencyOwner {
 		if(packet.getType() == 5)
 		{
 			liquid_state.sync(packet.readFluidStack());
-		}
-		else if(packet.getType() == 6)
-		{
-			pressure_state.a_pressure = packet.readBoolean();
 		}
 	}
 

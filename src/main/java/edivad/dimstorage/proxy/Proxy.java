@@ -8,6 +8,7 @@ import edivad.dimstorage.ModBlocks;
 import edivad.dimstorage.ModItems;
 import edivad.dimstorage.manager.DimStorageManager;
 import edivad.dimstorage.network.DimStorageSPH;
+import edivad.dimstorage.network.TankSynchroniser;
 import edivad.dimstorage.network.test.PacketHandler;
 import edivad.dimstorage.plugin.DimChestPlugin;
 import edivad.dimstorage.plugin.DimTankPlugin;
@@ -31,6 +32,7 @@ public class Proxy {
 		DimStorageManager.registerPlugin(new DimChestPlugin());
 		DimStorageManager.registerPlugin(new DimTankPlugin());
 		MinecraftForge.EVENT_BUS.register(new DimStorageManager.DimStorageSaveHandler());
+		MinecraftForge.EVENT_BUS.register(new TankSynchroniser());
 	}
 
 	public void init(FMLInitializationEvent e)
