@@ -4,16 +4,11 @@ import codechicken.lib.data.MCDataInput;
 import codechicken.lib.data.MCDataOutput;
 import codechicken.lib.packet.PacketCustom;
 import edivad.dimstorage.Main;
-import edivad.dimstorage.client.gui.GuiDimChest;
-import edivad.dimstorage.container.ContainerDimChest;
 import edivad.dimstorage.manager.DimStorageManager;
 import edivad.dimstorage.storage.DimChestStorage;
-import edivad.dimstorage.tools.IGuiTile;
 import edivad.dimstorage.tools.Translate;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -21,12 +16,10 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-public class TileEntityDimChest extends TileFrequencyOwner implements IGuiTile {
+public class TileEntityDimChest extends TileFrequencyOwner {
 
 	private static final float MIN_MOVABLE_POSITION = 0f;
 	private static final float MAX_MOVABLE_POSITION = 0.5f;
@@ -43,7 +36,6 @@ public class TileEntityDimChest extends TileFrequencyOwner implements IGuiTile {
 	{
 		movablePartState = MIN_MOVABLE_POSITION;
 		locked = false;
-		//currentStorage = getStorage();
 	}
 
 	@Override
@@ -56,10 +48,7 @@ public class TileEntityDimChest extends TileFrequencyOwner implements IGuiTile {
 			openCount = getStorage().getNumOpen();
 			world.addBlockEvent(getPos(), getBlockType(), 1, openCount);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-			//System.out.println(getStorage().freq);
 		}
-		//		if(world.isRemote && world.getTotalWorldTime() % 20 == 0)
-		//			System.out.println(getStorage().freq);
 
 		if(this.openCount > 0)
 		{
@@ -177,26 +166,5 @@ public class TileEntityDimChest extends TileFrequencyOwner implements IGuiTile {
 			return (T) new InvWrapper(getStorage());
 		}
 		return super.getCapability(capability, facing);
-	}
-
-	private void reloadStorage()
-	{
-		currentStorage = getStorage();
-	}
-	
-	@Override
-	public Container createContainer(EntityPlayer player)
-	{
-		reloadStorage();
-		return new ContainerDimChest(player.inventory, currentStorage);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public GuiContainer createGui(EntityPlayer player)
-	{
-		reloadStorage();
-		currentStorage.empty();
-		return new GuiDimChest(player.inventory, currentStorage, this);
 	}
 }

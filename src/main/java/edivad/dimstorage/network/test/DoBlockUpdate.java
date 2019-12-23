@@ -2,11 +2,12 @@ package edivad.dimstorage.network.test;
 
 import edivad.dimstorage.Main;
 import edivad.dimstorage.api.Frequency;
-import edivad.dimstorage.container.ContainerDimChest;
 import edivad.dimstorage.tile.TileEntityDimChest;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -57,7 +58,6 @@ public class DoBlockUpdate implements IMessage {
 		@Override
 		public IMessage onMessage(DoBlockUpdate msg, MessageContext ctx)
 		{
-
 			FMLClientHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> handle(msg, ctx));
 			return null;
 		}
@@ -66,7 +66,10 @@ public class DoBlockUpdate implements IMessage {
 		{
 			if(ctx.side == Side.SERVER)
 			{
-				TileEntity tile = ctx.getServerHandler().player.world.getTileEntity(msg.pos);
+				EntityPlayerMP player = ctx.getServerHandler().player;
+				World world = player.world;
+				TileEntity tile = world.getTileEntity(msg.pos);
+
 				if(!(tile instanceof TileEntityDimChest))
 				{
 					Main.logger.error("Wrong type of tile entity (expected TileEntityDimChest)!");
@@ -75,18 +78,10 @@ public class DoBlockUpdate implements IMessage {
 				TileEntityDimChest chest = (TileEntityDimChest) tile;
 				chest.frequency.set(msg.freq);
 				chest.locked = msg.locked;
-				//                chest.reloadStorage();
-				if(ctx.getServerHandler().player.openContainer instanceof ContainerDimChest)
-				{
-					ContainerDimChest containerChest = (ContainerDimChest) ctx.getServerHandler().player.openContainer;
-					//Close all the open chest with the old frequency, and open the new chest with the new one
-					containerChest.chestInv.closeInventory();
-					containerChest.chestInv = chest.getStorage();
-					containerChest.chestInv.openInventory();
-					containerChest.detectAndSendChanges();
-				}
 
-				ctx.getServerHandler().player.world.markBlockRangeForRenderUpdate(msg.pos, msg.pos);
+				world.markBlockRangeForRenderUpdate(msg.pos, msg.pos);
+				if(chest.canAccess())
+					player.openGui(Main.MODID, 1, world, msg.pos.getX(), msg.pos.getY(), msg.pos.getZ());
 			}
 		}
 	}

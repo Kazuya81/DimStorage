@@ -16,9 +16,9 @@ public class GuiDimChest extends BaseGUI {
 	private TileEntityDimChest ownerTile;
 	private InventoryPlayer invPlayer;
 
-	public GuiDimChest(InventoryPlayer invPlayer, DimChestStorage chestInv, TileEntityDimChest owner)
+	public GuiDimChest(InventoryPlayer invPlayer, DimChestStorage chestInv, TileEntityDimChest owner, boolean drawSettings)
 	{
-		super(new ResourceLocation(Main.MODID, "gui/dimchest.png"), new ContainerDimChest(invPlayer, chestInv));
+		super(new ResourceLocation(Main.MODID, "gui/dimchest.png"), new ContainerDimChest(invPlayer, chestInv), drawSettings);
 		this.ownerTile = owner;
 		this.invPlayer = invPlayer;
 	}
@@ -44,18 +44,16 @@ public class GuiDimChest extends BaseGUI {
 		if(button.id == BUTTON_OWNER)
 		{
 			ownerTile.swapOwner();
-			PacketHandler.packetReq.sendToServer(new DoBlockUpdate(ownerTile.getPos(), ownerTile.frequency, ownerTile.locked));
-			this.inventorySlots = new ContainerDimChest(invPlayer, ownerTile.getStorage());
+			PacketHandler.packetReq.sendToServer(new DoBlockUpdate(ownerTile));
 		}
 		else if(button.id == BUTTON_FREQ)
 		{
 			try
 			{
-				int freq = Integer.parseInt(freqTextField.getText());
+				int freq = Math.abs(Integer.parseInt(freqTextField.getText()));
 				ownerTile.setFreq(ownerTile.frequency.copy().setChannel(freq));
-				PacketHandler.packetReq.sendToServer(new DoBlockUpdate(ownerTile.getPos(), ownerTile.frequency, ownerTile.locked));
-				this.inventorySlots = new ContainerDimChest(invPlayer, ownerTile.getStorage());
 				currentFreq = freq;
+				PacketHandler.packetReq.sendToServer(new DoBlockUpdate(ownerTile));
 			}
 			catch(Exception e)
 			{
@@ -65,7 +63,7 @@ public class GuiDimChest extends BaseGUI {
 		else if(button.id == BUTTON_LOCKED)
 		{
 			ownerTile.swapLocked();
-			PacketHandler.packetReq.sendToServer(new DoBlockUpdate(ownerTile.getPos(), ownerTile.frequency, ownerTile.locked));
+			PacketHandler.packetReq.sendToServer(new DoBlockUpdate(ownerTile));
 		}
 	}
 
