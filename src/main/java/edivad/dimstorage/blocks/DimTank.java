@@ -55,7 +55,7 @@ public class DimTank extends Block implements ITileEntityProvider {
 	{
 		return new TileEntityDimTank();
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
@@ -63,7 +63,7 @@ public class DimTank extends Block implements ITileEntityProvider {
 			return true;
 
 		FluidUtil.interactWithFluidHandler(playerIn, hand, worldIn, pos, facing);
-		
+
 		TileEntity tile = worldIn.getTileEntity(pos);
 		if(!(tile instanceof TileEntityDimTank))
 			return false;
@@ -130,15 +130,16 @@ public class DimTank extends Block implements ITileEntityProvider {
 		}
 		super.addInformation(stack, player, tooltip, advanced);
 	}
-	
+
 	@Override
 	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos)
 	{
 		TileEntity tile = world.getTileEntity(pos);
-        if (tile instanceof TileEntityDimTank) {
-            return ((TileEntityDimTank) tile).getLightValue();
-        }
-        return 0;
+		if(tile instanceof TileEntityDimTank)
+		{
+			return ((TileEntityDimTank) tile).getLightValue();
+		}
+		return 0;
 	}
 
 	@SideOnly(Side.CLIENT)

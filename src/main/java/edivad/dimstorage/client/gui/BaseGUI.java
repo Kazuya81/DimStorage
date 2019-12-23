@@ -55,7 +55,7 @@ public class BaseGUI extends GuiContainer {
 		this.drawSettings = drawSettings;
 		this.settingsButtonOver = false;
 		this.noConfig = false;
-		
+
 		if(this.drawSettings)
 		{
 			animationState = SETTINGS_WIDTH;

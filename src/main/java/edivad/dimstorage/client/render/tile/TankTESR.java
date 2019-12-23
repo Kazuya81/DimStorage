@@ -73,7 +73,7 @@ public class TankTESR extends TileEntitySpecialRenderer<TileEntityDimTank> {
 			float v1 = sprite.getMinV();
 			float u2 = sprite.getMaxU();
 			float v2 = sprite.getMaxV();
-			
+
 			float margin = 0.9f;
 			//System.out.println(TANK_THICKNESS);
 			// Top

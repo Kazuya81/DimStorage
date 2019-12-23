@@ -136,8 +136,9 @@ public abstract class TileFrequencyOwner extends TileEntity implements ITickable
 	{
 		return false;
 	}
-	
-	public int getLightValue() {
-        return 0;
-    }
+
+	public int getLightValue()
+	{
+		return 0;
+	}
 }

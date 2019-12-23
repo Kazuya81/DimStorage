@@ -42,86 +42,86 @@ public class GuiDimTank extends BaseGUI {
 	@Override
 	protected void actionPerformed(GuiButton button)
 	{
-//		if(button.id == BUTTON_OWNER)
-//		{
-//			ownerTile.swapOwner();
-//			PacketHandler.packetReq.sendToServer(new DoBlockUpdate(ownerTile.getPos(), ownerTile.frequency, ownerTile.locked));
-//			this.inventorySlots = new ContainerDimChest(invPlayer, ownerTile.getStorage());
-//		}
-//		else if(button.id == BUTTON_FREQ)
-//		{
-//			try
-//			{
-//				int freq = Integer.parseInt(freqTextField.getText());
-//				ownerTile.setFreq(ownerTile.frequency.copy().setChannel(freq));
-//				PacketHandler.packetReq.sendToServer(new DoBlockUpdate(ownerTile.getPos(), ownerTile.frequency, ownerTile.locked));
-//				this.inventorySlots = new ContainerDimChest(invPlayer, ownerTile.getStorage());
-//				currentFreq = freq;
-//			}
-//			catch(Exception e)
-//			{
-//				freqTextField.setText(String.valueOf(currentFreq));
-//			}
-//		}
-//		else if(button.id == BUTTON_LOCKED)
-//		{
-//			ownerTile.swapLocked();
-//			PacketHandler.packetReq.sendToServer(new DoBlockUpdate(ownerTile.getPos(), ownerTile.frequency, ownerTile.locked));
-//		}
+		//		if(button.id == BUTTON_OWNER)
+		//		{
+		//			ownerTile.swapOwner();
+		//			PacketHandler.packetReq.sendToServer(new DoBlockUpdate(ownerTile.getPos(), ownerTile.frequency, ownerTile.locked));
+		//			this.inventorySlots = new ContainerDimChest(invPlayer, ownerTile.getStorage());
+		//		}
+		//		else if(button.id == BUTTON_FREQ)
+		//		{
+		//			try
+		//			{
+		//				int freq = Integer.parseInt(freqTextField.getText());
+		//				ownerTile.setFreq(ownerTile.frequency.copy().setChannel(freq));
+		//				PacketHandler.packetReq.sendToServer(new DoBlockUpdate(ownerTile.getPos(), ownerTile.frequency, ownerTile.locked));
+		//				this.inventorySlots = new ContainerDimChest(invPlayer, ownerTile.getStorage());
+		//				currentFreq = freq;
+		//			}
+		//			catch(Exception e)
+		//			{
+		//				freqTextField.setText(String.valueOf(currentFreq));
+		//			}
+		//		}
+		//		else if(button.id == BUTTON_LOCKED)
+		//		{
+		//			ownerTile.swapLocked();
+		//			PacketHandler.packetReq.sendToServer(new DoBlockUpdate(ownerTile.getPos(), ownerTile.frequency, ownerTile.locked));
+		//		}
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int x, int y)
 	{
-//		this.fontRenderer.drawString(name, 8, 6, 4210752);
-//		this.fontRenderer.drawString(inventory, 8, 128, 4210752);
-//
-//		if(!drawSettings)
-//			return;
-//
-//		int posY = 45;
-//
-//		// owner
-//		this.fontRenderer.drawString(owner, 185, posY, 4210752);
-//		posY += 9;
-//		this.drawHorizontalLine(185, 185 + this.fontRenderer.getStringWidth(owner), posY, 0xFF333333);
-//		posY += 6;
-//		int width = this.fontRenderer.getStringWidth(ownerTile.frequency.getOwner());
-//		this.fontRenderer.drawString(ownerTile.frequency.getOwner(), 215 - width / 2, posY, 4210752);
-//		posY += 40;
-//
-//		// freq
-//		this.fontRenderer.drawString(freq.toString(), 185, posY, 4210752);
-//		posY += 9;
-//		this.drawHorizontalLine(185, 185 + this.fontRenderer.getStringWidth(freq), posY, 0xFF333333);
-//		posY += 51;
-//
-//		// locked
-//		this.fontRenderer.drawString(locked, 185, posY, 4210752);
-//		posY += 9;
-//		this.drawHorizontalLine(185, 185 + this.fontRenderer.getStringWidth(locked), posY, 0xFF333333);
-//
-//		// refresh button label
-//		setTextLockedButton(ownerTile.locked);
+		//		this.fontRenderer.drawString(name, 8, 6, 4210752);
+		//		this.fontRenderer.drawString(inventory, 8, 128, 4210752);
+		//
+		//		if(!drawSettings)
+		//			return;
+		//
+		//		int posY = 45;
+		//
+		//		// owner
+		//		this.fontRenderer.drawString(owner, 185, posY, 4210752);
+		//		posY += 9;
+		//		this.drawHorizontalLine(185, 185 + this.fontRenderer.getStringWidth(owner), posY, 0xFF333333);
+		//		posY += 6;
+		//		int width = this.fontRenderer.getStringWidth(ownerTile.frequency.getOwner());
+		//		this.fontRenderer.drawString(ownerTile.frequency.getOwner(), 215 - width / 2, posY, 4210752);
+		//		posY += 40;
+		//
+		//		// freq
+		//		this.fontRenderer.drawString(freq.toString(), 185, posY, 4210752);
+		//		posY += 9;
+		//		this.drawHorizontalLine(185, 185 + this.fontRenderer.getStringWidth(freq), posY, 0xFF333333);
+		//		posY += 51;
+		//
+		//		// locked
+		//		this.fontRenderer.drawString(locked, 185, posY, 4210752);
+		//		posY += 9;
+		//		this.drawHorizontalLine(185, 185 + this.fontRenderer.getStringWidth(locked), posY, 0xFF333333);
+		//
+		//		// refresh button label
+		//		setTextLockedButton(ownerTile.locked);
 	}
-	
+
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
 	{
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 
 		// Render Ice Water
-//		int z = this.getFluidScaled(60);
+		//		int z = this.getFluidScaled(60);
 		int z = 60;
 		TextureAtlasSprite fluidTexture = mc.getTextureMapBlocks().getTextureExtry(ownerTile.getStorage().getFluid().getFluid().getStill().toString());
 		mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		this.drawTexturedModalRect(this.guiLeft + 10, this.guiTop + 12 + z, fluidTexture, 16, 60 - z);
 	}
 
-//	private int getFluidScaled(int pixels)
-//	{
-//		int currentLiquidAmount = ownerTile.getStorage().getTank().getFluidAmount();
-//		int x = currentLiquidAmount * pixels / ownerTile.CAPACITY;
-//		return pixels - x;
-//	}
+	//	private int getFluidScaled(int pixels)
+	//	{
+	//		int currentLiquidAmount = ownerTile.getStorage().getTank().getFluidAmount();
+	//		int x = currentLiquidAmount * pixels / ownerTile.CAPACITY;
+	//		return pixels - x;
+	//	}
 }

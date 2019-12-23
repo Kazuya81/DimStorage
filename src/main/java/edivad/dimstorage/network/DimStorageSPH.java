@@ -15,11 +15,12 @@ public class DimStorageSPH implements IServerPacketHandler {
 	@Override
 	public void handlePacket(PacketCustom packet, EntityPlayerMP sender, INetHandlerPlayServer handler)
 	{
-		switch (packet.getType()) {
-            case 1:
-                TankSynchroniser.handleVisiblityPacket(sender, packet);
-                break;
-        } 
+		switch (packet.getType())
+		{
+			case 1:
+				TankSynchroniser.handleVisiblityPacket(sender, packet);
+				break;
+		}
 	}
 
 	public static void sendOpenUpdateTo(EntityPlayer player, Frequency freq, boolean open)
