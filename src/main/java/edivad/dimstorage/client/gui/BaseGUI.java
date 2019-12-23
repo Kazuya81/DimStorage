@@ -52,7 +52,7 @@ public class BaseGUI extends GuiContainer {
 
 		this.state = SettingsState.STATE_CLOSED;
 		this.animationState = 0;
-		this.drawSettings = false;
+		this.drawSettings = drawSettings;
 		this.settingsButtonOver = false;
 		this.noConfig = false;
 		

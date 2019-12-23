@@ -88,7 +88,7 @@ public class GuiDimChest extends BaseGUI {
 		posY += 40;
 
 		// freq
-		this.fontRenderer.drawString(freq.toString(), 185, posY, 4210752);
+		this.fontRenderer.drawString(freq, 185, posY, 4210752);
 		posY += 9;
 		this.drawHorizontalLine(185, 185 + this.fontRenderer.getStringWidth(freq), posY, 0xFF333333);
 		posY += 51;
