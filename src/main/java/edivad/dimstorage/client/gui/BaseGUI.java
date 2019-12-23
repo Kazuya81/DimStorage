@@ -42,7 +42,7 @@ public class BaseGUI extends GuiContainer {
 
 	private boolean noConfig;
 
-	public BaseGUI(ResourceLocation background, Container inventory)
+	public BaseGUI(ResourceLocation background, Container inventory, boolean drawSettings)
 	{
 		super(inventory);
 		this.background = background;
@@ -55,6 +55,12 @@ public class BaseGUI extends GuiContainer {
 		this.drawSettings = false;
 		this.settingsButtonOver = false;
 		this.noConfig = false;
+		
+		if(this.drawSettings)
+		{
+			animationState = SETTINGS_WIDTH;
+			state = SettingsState.STATE_OPENED;
+		}
 	}
 
 	@Override
@@ -115,7 +121,11 @@ public class BaseGUI extends GuiContainer {
 	protected void keyTyped(char c, int code) throws IOException
 	{
 		super.keyTyped(c, code);
-		freqTextField.textboxKeyTyped(c, code);
+		//14 delete
+		if((code >= 2 && code <= 11) || code == 14)
+		{
+			freqTextField.textboxKeyTyped(c, code);
+		}
 	}
 
 	@Override

@@ -16,9 +16,9 @@ public class GuiDimTank extends BaseGUI {
 	private TileEntityDimTank ownerTile;
 	private InventoryPlayer invPlayer;
 
-	public GuiDimTank(InventoryPlayer invPlayer, DimChestStorage chestInv, TileEntityDimTank owner)
+	public GuiDimTank(InventoryPlayer invPlayer, DimChestStorage chestInv, TileEntityDimTank owner, boolean drawSettings)
 	{
-		super(new ResourceLocation(Main.MODID, "gui/dimtank.png"), new ContainerDimChest(invPlayer, chestInv));
+		super(new ResourceLocation(Main.MODID, "gui/dimtank.png"), new ContainerDimChest(invPlayer, chestInv), drawSettings);
 		this.ownerTile = owner;
 		this.invPlayer = invPlayer;
 	}
