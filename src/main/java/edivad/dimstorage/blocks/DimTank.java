@@ -3,7 +3,7 @@ package edivad.dimstorage.blocks;
 import java.util.List;
 
 import edivad.dimstorage.Main;
-import edivad.dimstorage.client.render.tile.TankTESR;
+import edivad.dimstorage.client.render.tile.RenderTileDimTank;
 import edivad.dimstorage.tile.TileEntityDimTank;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -27,7 +27,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -61,16 +60,13 @@ public class DimTank extends Block implements ITileEntityProvider {
 	{
 		if(worldIn.isRemote)
 			return true;
-
-		FluidUtil.interactWithFluidHandler(playerIn, hand, worldIn, pos, facing);
-
 		TileEntity tile = worldIn.getTileEntity(pos);
 		if(!(tile instanceof TileEntityDimTank))
 			return false;
 
 		TileEntityDimTank owner = (TileEntityDimTank) tile;
-
-		return !playerIn.isSneaking() && owner.activate(playerIn, worldIn, pos);
+		
+		return !playerIn.isSneaking() && owner.activate(playerIn, worldIn, pos, hand);
 	}
 
 	@Override
@@ -113,21 +109,21 @@ public class DimTank extends Block implements ITileEntityProvider {
 	@Override
 	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced)
 	{
-		NBTTagCompound tagCompound = stack.getTagCompound();
-		if(tagCompound != null)
-		{
-			NBTTagCompound nbt = tagCompound.getCompoundTag("tank");
-			FluidStack fluidStack = null;
-			if(!nbt.hasKey("Empty"))
-				fluidStack = FluidStack.loadFluidStackFromNBT(nbt);
-			if(fluidStack == null)
-				System.out.println("empty");
-			else
-			{
-				String name = fluidStack.getLocalizedName();
-				System.out.println(name);
-			}
-		}
+//		NBTTagCompound tagCompound = stack.getTagCompound();
+//		if(tagCompound != null)
+//		{
+//			NBTTagCompound nbt = tagCompound.getCompoundTag("tank");
+//			FluidStack fluidStack = null;
+//			if(!nbt.hasKey("Empty"))
+//				fluidStack = FluidStack.loadFluidStackFromNBT(nbt);
+//			if(fluidStack == null)
+//				System.out.println("empty");
+//			else
+//			{
+//				String name = fluidStack.getLocalizedName();
+//				System.out.println(name);
+//			}
+//		}
 		super.addInformation(stack, player, tooltip, advanced);
 	}
 
@@ -146,6 +142,6 @@ public class DimTank extends Block implements ITileEntityProvider {
 	public void initModel()
 	{
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDimTank.class, new TankTESR());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDimTank.class, new RenderTileDimTank());
 	}
 }

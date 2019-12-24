@@ -11,6 +11,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
@@ -127,7 +128,7 @@ public class TileEntityDimChest extends TileFrequencyOwner {
 	}
 
 	@Override
-	public boolean activate(EntityPlayer player, World worldIn, BlockPos pos)
+	public boolean activate(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand)
 	{
 		if(canAccess())
 		{

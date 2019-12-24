@@ -15,6 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -77,7 +78,7 @@ public abstract class TileFrequencyOwner extends TileEntity implements ITickable
 		return tag;
 	}
 
-	public boolean activate(EntityPlayer player, World worldIn, BlockPos pos)
+	public boolean activate(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand)
 	{
 		return false;
 	}

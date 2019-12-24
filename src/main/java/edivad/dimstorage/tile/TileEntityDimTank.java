@@ -15,10 +15,12 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.FluidTankProperties;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -175,10 +177,9 @@ public class TileEntityDimTank extends TileFrequencyOwner {
 	}
 
 	@Override
-	public boolean activate(EntityPlayer player, World worldIn, BlockPos pos)
+	public boolean activate(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand)
 	{
-		//player.openGui(Main.MODID, 0, worldIn, pos.getX(), pos.getY(), pos.getZ());
-		return true;
+		return FluidUtil.interactWithFluidHandler(player, hand, getStorage());
 	}
 
 	@Override

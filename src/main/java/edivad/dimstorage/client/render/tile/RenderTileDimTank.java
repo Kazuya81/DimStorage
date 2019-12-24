@@ -20,11 +20,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class TankTESR extends TileEntitySpecialRenderer<TileEntityDimTank> {
+public class RenderTileDimTank extends TileEntitySpecialRenderer<TileEntityDimTank> {
 
 	public float TANK_THICKNESS = 0.04f;
 
-	public TankTESR()
+	public RenderTileDimTank()
 	{
 	}
 
@@ -49,6 +49,7 @@ public class TankTESR extends TileEntitySpecialRenderer<TileEntityDimTank> {
 			return;
 
 		FluidStack fluid = tank.liquid_state.c_liquid;
+		System.out.println(tank.frequency + " " + fluid.getFluid().getName() + " " + fluid.amount);
 		if(fluid == null)
 			return;
 
@@ -75,7 +76,7 @@ public class TankTESR extends TileEntitySpecialRenderer<TileEntityDimTank> {
 			float v2 = sprite.getMaxV();
 
 			float margin = 0.9f;
-			//System.out.println(TANK_THICKNESS);
+
 			// Top
 			renderer.pos(TANK_THICKNESS + 0.1f, scale + TANK_THICKNESS, TANK_THICKNESS + 0.1f).tex(u1, v1).color(255, 255, 255, 128).endVertex();
 			renderer.pos(TANK_THICKNESS + 0.1f, scale + TANK_THICKNESS, margin - TANK_THICKNESS).tex(u1, v2).color(255, 255, 255, 128).endVertex();
